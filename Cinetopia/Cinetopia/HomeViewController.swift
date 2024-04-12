@@ -6,14 +6,42 @@
 //
 
 import UIKit
+import SnapKit
 
 class HomeViewController: UIViewController {
-
+    
+    // MARK: - Properties
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.text = "Hello, World!"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        return label
+    }()
+    
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .background
+        
+        addSubviews()
+        setupConstraints()
+        
     }
 
 
+    
+    // MARK: - Functions
+    private func addSubviews() {
+        view.addSubview(label)
+    }
+    private func setupConstraints() {
+        // label
+        label.translatesAutoresizingMaskIntoConstraints = false // vamos utilizar constraints programáticas
+        label.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview() // centralizando label
+        }
+        
+    }
 }
-
