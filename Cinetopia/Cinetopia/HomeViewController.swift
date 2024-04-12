@@ -34,6 +34,17 @@ class HomeViewController: UIViewController {
         return label
     }()
     
+    private lazy var welcomeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Quero começar!", for: .normal)
+        button.backgroundColor = .buttonBackground
+        button.setTitleColor(.background, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.layer.cornerRadius = 32
+        return button
+    }()
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -52,6 +63,7 @@ class HomeViewController: UIViewController {
         view.addSubview(logoImageView)
         view.addSubview(coupleImageView)
         view.addSubview(welcomeLabel)
+        view.addSubview(welcomeButton)
     }
     
     private func setupConstraints() {
@@ -68,11 +80,20 @@ class HomeViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        /// Label
+        /// Welcome Label
         welcomeLabel.snp.makeConstraints { make in
             make.top.equalTo(coupleImageView.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
+        }
+        
+        /// Welcome Button
+        welcomeButton.snp.makeConstraints { make in
+            make.top.equalTo(welcomeLabel.snp.bottom).offset(52)
+            make.leading.equalTo(view.snp.leading).offset(46)
+            make.trailing.equalTo(view.snp.trailing).offset(-46)
+            make.height.equalTo(64) // para a altura do botão
+            
         }
         
     }
