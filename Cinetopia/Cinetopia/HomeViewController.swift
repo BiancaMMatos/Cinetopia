@@ -42,6 +42,7 @@ class HomeViewController: UIViewController {
         button.setTitleColor(.background, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 32
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -55,10 +56,13 @@ class HomeViewController: UIViewController {
         setupConstraints()
         
     }
-
-
     
     // MARK: - Functions
+    @objc private func buttonPressed() {
+        navigationController?.pushViewController(MoviesViewController(), animated: true)
+    }
+    
+    
     private func addSubviews() {
         view.addSubview(logoImageView)
         view.addSubview(coupleImageView)
