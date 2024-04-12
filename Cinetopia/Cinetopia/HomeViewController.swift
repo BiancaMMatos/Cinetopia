@@ -11,7 +11,7 @@ import SnapKit
 class HomeViewController: UIViewController {
     
     // MARK: - Properties
-    lazy var label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.text = "Hello, World!"
         label.textColor = .white
