@@ -55,6 +55,7 @@ class HomeViewController: UIViewController {
         addSubviews()
         setupConstraints()
         
+        
     }
     
     // MARK: - Functions
