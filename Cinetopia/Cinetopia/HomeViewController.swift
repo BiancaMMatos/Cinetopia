@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class HomeViewController: UIViewController {
     
@@ -24,10 +25,20 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         
-        // Adding subviews
-        view.addSubview(label)
+        configureLabel()
         
     }
 
 
+    
+    // MARK: - Functions
+    private func configureLabel() {
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false // vamos utilizar constraints programáticas
+        
+        label.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview() // centralizando label
+        }
+        
+    }
 }
