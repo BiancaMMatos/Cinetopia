@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         
+        addSubviews()
         setupConstraints()
         
     }
@@ -32,10 +33,12 @@ class HomeViewController: UIViewController {
 
     
     // MARK: - Functions
-    private func setupConstraints() {
+    private func addSubviews() {
         view.addSubview(label)
+    }
+    private func setupConstraints() {
+        // label
         label.translatesAutoresizingMaskIntoConstraints = false // vamos utilizar constraints programáticas
-        
         label.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview() // centralizando label
         }
