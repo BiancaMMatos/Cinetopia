@@ -25,14 +25,14 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         
-        configureLabel()
+        setupConstraints()
         
     }
 
 
     
     // MARK: - Functions
-    private func configureLabel() {
+    private func setupConstraints() {
         view.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false // vamos utilizar constraints programáticas
         
