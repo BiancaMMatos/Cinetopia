@@ -9,12 +9,17 @@ import UIKit
 
 class MoviesViewController: UIViewController {
 
+    var names: [String] = [
+        "Bianca", "Felipe", "Fran", "Bruno"
+    ]
     
     // MARK:- Properties
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .clear // limpando o fundo, garantindo o fundo com a cor .background ao invés de branco
+        tableView.backgroundColor = .clear /// limpando o fundo, garantindo o fundo com a cor .background ao invés de branco
+        tableView.dataSource = self /// a tela é a fonte de dados para a célula
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "nameCell") /// adicionando identificador
         return tableView
     }()
     
@@ -48,4 +53,21 @@ class MoviesViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
     }
 
+}
+
+extension MoviesViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { /// retorna a quantidade de linhas que a tabela terá
+        return names.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { /// retorna as característica das células
+        let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath)
+        //cell.textLabel?.text = names[indexPath.row]
+        var configuration = cell.defaultContentConfiguration()
+        configuration.textProperties.color = .white
+        configuration.text = names[indexPath.row]
+        cell.contentConfiguration = configuration
+        cell.backgroundColor = .clear
+        return cell
+    }
 }
