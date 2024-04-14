@@ -14,12 +14,14 @@ class HomeViewController: UIViewController {
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.logo)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private lazy var coupleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.couple)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -46,6 +48,15 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [logoImageView, coupleImageView, welcomeLabel, welcomeButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 32
+        stackView.alignment = .center
+        return stackView
+    }()
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -65,40 +76,22 @@ class HomeViewController: UIViewController {
     
     
     private func addSubviews() {
-        view.addSubview(logoImageView)
-        view.addSubview(coupleImageView)
-        view.addSubview(welcomeLabel)
-        view.addSubview(welcomeButton)
+        view.addSubview(stackView)
     }
     
     private func setupConstraints() {
         
-        /// Logo Image
-        logoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(84)
-            make.centerX.equalToSuperview()
+        stackView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin) // Alinha ao topo da safeArea
         }
         
-        /// Couple Image
-        coupleImageView.snp.makeConstraints { make in
-            make.top.equalTo(logoImageView.snp.bottom).offset(32)
-            make.centerX.equalToSuperview()
-        }
-        
-        /// Welcome Label
-        welcomeLabel.snp.makeConstraints { make in
-            make.top.equalTo(coupleImageView.snp.bottom).offset(32)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-        }
-        
-        /// Welcome Button
         welcomeButton.snp.makeConstraints { make in
             make.top.equalTo(welcomeLabel.snp.bottom).offset(52)
-            make.leading.equalTo(view.snp.leading).offset(46)
-            make.trailing.equalTo(view.snp.trailing).offset(-46)
+            make.leading.equalTo(stackView.snp.leading).offset(46)
+            make.trailing.equalTo(stackView.snp.trailing).offset(-46)
             make.height.equalTo(64) // para a altura do botão
-            
+             
         }
         
     }
