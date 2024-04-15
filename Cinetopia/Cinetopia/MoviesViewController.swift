@@ -19,6 +19,7 @@ class MoviesViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear /// limpando o fundo, garantindo o fundo com a cor .background ao invés de branco
         tableView.dataSource = self /// a tela é a fonte de dados para a célula
+        tableView.delegate = self ///  comportamento da tabela será conforme esta tela
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "nameCell") /// adicionando identificador
         return tableView
     }()
@@ -55,7 +56,7 @@ class MoviesViewController: UIViewController {
 
 }
 
-extension MoviesViewController: UITableViewDataSource {
+extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { /// retorna a quantidade de linhas que a tabela terá
         return names.count
     }
@@ -69,5 +70,9 @@ extension MoviesViewController: UITableViewDataSource {
         cell.contentConfiguration = configuration
         cell.backgroundColor = .clear
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { /// seleciono uma célula
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
