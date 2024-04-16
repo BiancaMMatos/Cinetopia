@@ -9,12 +9,13 @@ import UIKit
 import SnapKit
 
 class MovieTableViewCell: UITableViewCell {
-
+    
     // MARK:- Properties
     private lazy var moviePosterImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage.avatar)
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 12
         
         return imageView
@@ -23,9 +24,9 @@ class MovieTableViewCell: UITableViewCell {
     private lazy var movieTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Avatar"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = .systemFont(ofSize: 15, weight: .bold)
         label.textColor = .white
+        label.numberOfLines = 0
         
         return label
     }()
@@ -33,9 +34,9 @@ class MovieTableViewCell: UITableViewCell {
     private lazy var movieReleaseDateLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Lançamento: 18/12/2009"
         label.font = .systemFont(ofSize: 18)
         label.textColor = .white.withAlphaComponent(0.75)
+        label.numberOfLines = 0
         
         return label
     }()
@@ -56,13 +57,20 @@ class MovieTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     
     // MARK:- Functions
+    func configureCell(movie: Movie) {
+        movieTitleLabel.text = movie.title
+        moviePosterImageView.image = UIImage(named: movie.image)
+        movieReleaseDateLabel.text = "Lançamento: \(movie.releaseDate)"
+    }
+    
+    
     private func addSubviews() {
         addSubview(moviePosterImageView)
         addSubview(movieTitleLabel)
@@ -76,24 +84,27 @@ class MovieTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(16)
             make.bottom.equalToSuperview().offset(-16)
             make.width.equalToSuperview().multipliedBy(0.3) // largura relativa
+            
+            // Adicionando constraint para manter a proporção da imagem
+            make.height.equalTo(moviePosterImageView.snp.width).multipliedBy(1.5)
         }
         
         /// Title label
         movieTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(moviePosterImageView.snp.centerY)
+            make.centerY.equalTo(moviePosterImageView.snp.centerY).offset(-16)
             make.leading.equalTo(moviePosterImageView.snp.trailing).offset(16)
         }
         
         /// Movie Release
-            movieReleaseDateLabel.snp.makeConstraints { make in
-                make.top.equalTo(movieTitleLabel.snp.bottom).offset(8) // Distância entre o título e a data de lançamento
-                make.leading.equalTo(moviePosterImageView.snp.trailing).offset(16)
-                make.trailing.lessThanOrEqualToSuperview().offset(-16) // Garante que o texto completo seja visível
-                make.bottom.lessThanOrEqualToSuperview().offset(-16) // Garante que a data não ultrapasse a parte inferior da tela
-            }
+        movieReleaseDateLabel.snp.makeConstraints { make in
+            make.top.equalTo(movieTitleLabel.snp.bottom).offset(8) // Distância entre o título e a data de lançamento
+            make.leading.equalTo(moviePosterImageView.snp.trailing).offset(16)
+            make.trailing.lessThanOrEqualToSuperview().offset(-16) // Garante que o texto completo seja visível
+            make.bottom.lessThanOrEqualToSuperview().offset(-16) // Garante que a data não ultrapasse a parte inferior da tela
+        }
     }
-
+    
 }
 
 #Preview {

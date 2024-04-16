@@ -16,7 +16,7 @@ class MoviesViewController: UIViewController {
         tableView.backgroundColor = .clear /// limpando o fundo, garantindo o fundo com a cor .background ao invés de branco
         tableView.dataSource = self /// a tela é a fonte de dados para a célula
         tableView.delegate = self ///  comportamento da tabela será conforme esta tela
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "movieCell") /// adicionando identificador
+        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "movieCell") /// adicionando identificador
         return tableView
     }()
     
@@ -58,17 +58,22 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { /// retorna as característica das células
-        let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
-        //cell.textLabel?.text = names[indexPath.row]
-        var configuration = cell.defaultContentConfiguration()
-        configuration.textProperties.color = .white
-        configuration.text = movies[indexPath.row].title
-        cell.contentConfiguration = configuration
-        cell.backgroundColor = .clear
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as? MovieTableViewCell {
+            cell.configureCell(movie: movies[indexPath.row])
+            cell.selectionStyle = .none // para remover efeito de clique na célula
+            
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { /// seleciono uma célula
         tableView.deselectRow(at: indexPath, animated: true)
+        let detailsVC = MoviesDetailViewController(movie: movies[indexPath.row])
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { /// a altura da célula
+        return 160
     }
 }
