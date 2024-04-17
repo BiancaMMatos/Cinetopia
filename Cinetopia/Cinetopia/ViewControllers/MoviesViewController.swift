@@ -10,6 +10,9 @@ import UIKit
 class MoviesViewController: UIViewController {
     
     // MARK:- Properties
+    private var filteredMovies: [Movie] = []
+    private var isSearchActive: Bool = false
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,12 +68,13 @@ class MoviesViewController: UIViewController {
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { /// retorna a quantidade de linhas que a tabela terá
-        return movies.count
+        return isSearchActive ? filteredMovies.count : movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { /// retorna as característica das células
         if let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as? MovieTableViewCell {
-            cell.configureCell(movie: movies[indexPath.row])
+            let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificação para célula
+            cell.configureCell(movie: movie)
             cell.selectionStyle = .none // para remover efeito de clique na célula
             
             return cell
@@ -80,7 +84,8 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { /// seleciono uma célula
         tableView.deselectRow(at: indexPath, animated: true)
-        let detailsVC = MoviesDetailViewController(movie: movies[indexPath.row])
+        let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificando qual lista deverá ser apresentada
+        let detailsVC = MoviesDetailViewController(movie: movie)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     
@@ -92,7 +97,13 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
 extension MoviesViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { /// avisa quando o texto da searchBar for alterada
-        print(searchText)
+        isSearchActive = searchText.isEmpty ? false : true
+        if isSearchActive {
+            filteredMovies = movies.filter({ movie in
+                movie.title.lowercased().contains(searchText.lowercased()) /// verificando se o título no filme corresponde ao que o usuário está pesquisando
+            })
+        }
+        tableView.reloadData() // recarregando tela
     }
     
 }
