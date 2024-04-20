@@ -10,6 +10,8 @@ import UIKit
 class MoviesViewController: UIViewController {
     
     // MARK:- Properties
+    private let movieServices: MovieServices = MovieServices()
+    
     private var filteredMovies: [Movie] = []
     private var isSearchActive: Bool = false
     
@@ -40,6 +42,8 @@ class MoviesViewController: UIViewController {
         addSubviews()
         setupConstraints()
         setupNavigationBar()
+        
+        fetchMovies()
     }
     
     // MARK:- Functions
@@ -63,6 +67,11 @@ class MoviesViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
         navigationItem.titleView = searchBar
     }
+    
+    private func fetchMovies() { /// para chamar o getMovies
+        
+    }
+    
 
 }
 
