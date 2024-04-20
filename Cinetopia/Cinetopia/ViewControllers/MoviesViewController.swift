@@ -95,7 +95,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension MoviesViewController: UISearchBarDelegate {
-    
+        
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { /// avisa quando o texto da searchBar for alterada
         isSearchActive = searchText.isEmpty ? false : true
         if isSearchActive {
@@ -106,4 +106,49 @@ extension MoviesViewController: UISearchBarDelegate {
         tableView.reloadData() // recarregando tela
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) { /// adiciona um botão de cancelar à barra de pesquisa
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) { /// botão de cancelar é clicado
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder() /// para esconder o teclado quando o usuário termina de interagir com a searchBar
+        filteredMovies = movies
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let textFromUser = searchBar.text ?? ""
+        let isTheSameTitle = verifyValue(userText: textFromUser)
+        
+        if !isTheSameTitle {
+            showMessage(message: AlertMessage.noFound.rawValue)
+        }
+        
+    }
+    
+    private func verifyValue(userText: String) -> Bool {
+        let userText = userText.lowercased()
+        let isTheSameTitle = movies.contains { $0.title.lowercased() == userText }
+
+        if isTheSameTitle {
+            filteredMovies = movies.filter { $0.title.lowercased() == userText }
+        } else {
+            filteredMovies = []
+        }
+
+        return isTheSameTitle
+    }
+    
+    private func showMessage(message: String) {
+        let alertController = UIAlertController(title: "Alerta", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+enum AlertMessage: String {
+    case noFound = "Não há nenhum título com este nome."
 }
