@@ -69,7 +69,7 @@ class MoviesViewController: UIViewController {
     }
     
     private func fetchMovies() { /// para chamar o getMovies
-        
+        let movies = movieServices.getMovies()
     }
     
 
@@ -77,12 +77,12 @@ class MoviesViewController: UIViewController {
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { /// retorna a quantidade de linhas que a tabela terá
-        return isSearchActive ? filteredMovies.count : movies.count
+        return isSearchActive ? filteredMovies.count : mockedMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { /// retorna as característica das células
         if let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as? MovieTableViewCell {
-            let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificação para célula
+            let movie = isSearchActive ? filteredMovies[indexPath.row] : mockedMovies[indexPath.row] /// verificação para célula
             cell.configureCell(movie: movie)
             cell.selectionStyle = .none // para remover efeito de clique na célula
             
@@ -93,7 +93,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { /// seleciono uma célula
         tableView.deselectRow(at: indexPath, animated: true)
-        let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificando qual lista deverá ser apresentada
+        let movie = isSearchActive ? filteredMovies[indexPath.row] : mockedMovies[indexPath.row] /// verificando qual lista deverá ser apresentada
         let detailsVC = MoviesDetailViewController(movie: movie)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
@@ -108,7 +108,7 @@ extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { /// avisa quando o texto da searchBar for alterada
         isSearchActive = searchText.isEmpty ? false : true
         if isSearchActive {
-            filteredMovies = movies.filter({ movie in
+            filteredMovies = mockedMovies.filter({ movie in
                 movie.title.lowercased().contains(searchText.lowercased()) /// verificando se o título no filme corresponde ao que o usuário está pesquisando
             })
         }
@@ -123,7 +123,7 @@ extension MoviesViewController: UISearchBarDelegate {
         searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder() /// para esconder o teclado quando o usuário termina de interagir com a searchBar
-        filteredMovies = movies
+        filteredMovies = mockedMovies
         tableView.reloadData()
     }
     
@@ -139,10 +139,10 @@ extension MoviesViewController: UISearchBarDelegate {
     
     private func verifyValue(userText: String) -> Bool {
         let userText = userText.lowercased()
-        let isTheSameTitle = movies.contains { $0.title.lowercased() == userText }
+        let isTheSameTitle = mockedMovies.contains { $0.title.lowercased() == userText }
 
         if isTheSameTitle {
-            filteredMovies = movies.filter { $0.title.lowercased() == userText }
+            filteredMovies = mockedMovies.filter { $0.title.lowercased() == userText }
         } else {
             filteredMovies = []
         }
