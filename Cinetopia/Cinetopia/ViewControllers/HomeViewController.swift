@@ -79,20 +79,37 @@ class HomeViewController: UIViewController {
         view.addSubview(stackView)
     }
     
+//    private func setupConstraints() {
+//        
+//        stackView.snp.makeConstraints { make in
+//            make.left.right.equalToSuperview()
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin) // Alinha ao topo da safeArea
+//        }
+//        
+//        welcomeButton.snp.makeConstraints { make in
+//            make.top.equalTo(welcomeLabel.snp.bottom).offset(52)
+//            make.leading.equalTo(stackView.snp.leading).offset(46)
+//            make.trailing.equalTo(stackView.snp.trailing).offset(-46)
+//            make.height.equalTo(64) // para a altura do botão
+//             
+//        }
+//        
+//    }
+    
     private func setupConstraints() {
-        
         stackView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin) // Alinha ao topo da safeArea
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin).offset(16)
         }
         
         welcomeButton.snp.makeConstraints { make in
-            make.top.equalTo(welcomeLabel.snp.bottom).offset(52)
+            make.top.equalTo(welcomeLabel.snp.bottom).offset(32)
             make.leading.equalTo(stackView.snp.leading).offset(46)
             make.trailing.equalTo(stackView.snp.trailing).offset(-46)
-            make.height.equalTo(64) // para a altura do botão
-             
+            make.height.equalTo(64)
         }
-        
+
     }
+
+
 }

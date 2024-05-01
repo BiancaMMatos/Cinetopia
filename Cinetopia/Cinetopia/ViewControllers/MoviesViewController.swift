@@ -11,6 +11,7 @@ class MoviesViewController: UIViewController {
     
     // MARK:- Properties
     private let movieServices: MovieServices = MovieServices()
+    private var movies: [Movie] = []
     
     private var filteredMovies: [Movie] = []
     private var isSearchActive: Bool = false
@@ -68,21 +69,29 @@ class MoviesViewController: UIViewController {
         navigationItem.titleView = searchBar
     }
     
-    private func fetchMovies() { /// para chamar o getMovies
-        let movies = movieServices.getMovies()
-    }
+    private func fetchMovies() {
+            // Vamos chamar a funcao getMovies do movie service quando ela estiver pronta
+        movieServices.getMovies { movies in
+                guard let movies else { return }
+                
+                DispatchQueue.main.async { // voltando pra thread principal
+                    self.movies = movies
+                    self.tableView.reloadData()
+                }
+            }
+        }
     
 
 }
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { /// retorna a quantidade de linhas que a tabela terá
-        return isSearchActive ? filteredMovies.count : mockedMovies.count
+        return isSearchActive ? filteredMovies.count : movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { /// retorna as característica das células
         if let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as? MovieTableViewCell {
-            let movie = isSearchActive ? filteredMovies[indexPath.row] : mockedMovies[indexPath.row] /// verificação para célula
+            let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificação para célula
             cell.configureCell(movie: movie)
             cell.selectionStyle = .none // para remover efeito de clique na célula
             
@@ -93,7 +102,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { /// seleciono uma célula
         tableView.deselectRow(at: indexPath, animated: true)
-        let movie = isSearchActive ? filteredMovies[indexPath.row] : mockedMovies[indexPath.row] /// verificando qual lista deverá ser apresentada
+        let movie = isSearchActive ? filteredMovies[indexPath.row] : movies[indexPath.row] /// verificando qual lista deverá ser apresentada
         let detailsVC = MoviesDetailViewController(movie: movie)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
@@ -108,7 +117,7 @@ extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { /// avisa quando o texto da searchBar for alterada
         isSearchActive = searchText.isEmpty ? false : true
         if isSearchActive {
-            filteredMovies = mockedMovies.filter({ movie in
+            filteredMovies = movies.filter({ movie in
                 movie.title.lowercased().contains(searchText.lowercased()) /// verificando se o título no filme corresponde ao que o usuário está pesquisando
             })
         }
@@ -123,7 +132,7 @@ extension MoviesViewController: UISearchBarDelegate {
         searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder() /// para esconder o teclado quando o usuário termina de interagir com a searchBar
-        filteredMovies = mockedMovies
+        filteredMovies = movies
         tableView.reloadData()
     }
     
@@ -139,10 +148,10 @@ extension MoviesViewController: UISearchBarDelegate {
     
     private func verifyValue(userText: String) -> Bool {
         let userText = userText.lowercased()
-        let isTheSameTitle = mockedMovies.contains { $0.title.lowercased() == userText }
+        let isTheSameTitle = movies.contains { $0.title.lowercased() == userText }
 
         if isTheSameTitle {
-            filteredMovies = mockedMovies.filter { $0.title.lowercased() == userText }
+            filteredMovies = movies.filter { $0.title.lowercased() == userText }
         } else {
             filteredMovies = []
         }

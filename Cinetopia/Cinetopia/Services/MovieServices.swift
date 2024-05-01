@@ -9,21 +9,26 @@ import Foundation
 
 struct MovieServices {
     
-    func getMovies() -> [Movie]? {
+    func getMovies(completion: @escaping([Movie]?) -> Void) {
         
         var movies: [Movie] = []
         
-        let urlString = "http://localhost:3000/movies" /// constante para armazenar a URL
-        guard let url = URL(string: urlString) else { return nil }
+        let urlString = "http://localhost:3000/movies"
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, _ in
-            guard let data = data else { return }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(nil)
+                return
+            }
             
             /// convertendo o data para o objeto Movie
             do {
                 movies = try JSONDecoder().decode([Movie].self, from: data)
-                
+                completion(movies)
             } catch (let error) {
                 print(error)
             }
@@ -31,7 +36,6 @@ struct MovieServices {
         
         task.resume() /// executando tarefa
         
-        return movies
     }
     
 }

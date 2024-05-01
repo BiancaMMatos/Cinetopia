@@ -119,5 +119,5 @@ class MoviesDetailViewController: UIViewController {
 }
 
 #Preview {
-    MoviesDetailViewController(movie: movies[0])
+    MoviesDetailViewController(movie: mockedMovies[0])
 }
