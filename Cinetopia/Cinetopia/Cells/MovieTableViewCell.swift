@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MovieTableViewCell: UITableViewCell {
     
@@ -66,7 +67,9 @@ class MovieTableViewCell: UITableViewCell {
     // MARK:- Functions
     func configureCell(movie: Movie) {
         movieTitleLabel.text = movie.title
-        moviePosterImageView.image = UIImage(named: movie.image)
+        if let url = URL(string: movie.image) {
+            moviePosterImageView.kf.setImage(with: url)
+        }
         movieReleaseDateLabel.text = "Lançamento: \(movie.releaseDate)"
     }
     

@@ -8,5 +8,6 @@ target 'Cinetopia' do
   # Pods for Cinetopia
   pod 'SnapKit', '~> 5.7.1' 
   pod 'Kingfisher', '~> 7.10.0'
+  pod 'Alamofire', '~> 5.9.1'
 
 end
