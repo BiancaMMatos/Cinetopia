@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MovieTableViewCell: UITableViewCell {
     
@@ -66,7 +67,9 @@ class MovieTableViewCell: UITableViewCell {
     // MARK:- Functions
     func configureCell(movie: Movie) {
         movieTitleLabel.text = movie.title
-        moviePosterImageView.image = UIImage(named: movie.image)
+        if let url = URL(string: movie.image) {
+            moviePosterImageView.kf.setImage(with: url)
+        }
         movieReleaseDateLabel.text = "Lançamento: \(movie.releaseDate)"
     }
     
@@ -86,14 +89,14 @@ class MovieTableViewCell: UITableViewCell {
             make.width.equalToSuperview().multipliedBy(0.3) // largura relativa
             
             // Adicionando constraint para manter a proporção da imagem
-            make.height.equalTo(moviePosterImageView.snp.width).multipliedBy(1.5)
+            make.height.equalTo(moviePosterImageView.snp.width).multipliedBy(1.5).priority(.high) // Definindo alta prioridade para evitar conflito
         }
         
         /// Title label
         movieTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalTo(moviePosterImageView.snp.centerY).offset(-16)
+            make.centerY.equalTo(moviePosterImageView.snp.centerY) // Centralizando verticalmente com a imagem
             make.leading.equalTo(moviePosterImageView.snp.trailing).offset(16)
+            make.trailing.lessThanOrEqualToSuperview().offset(-16) // Garante que o texto completo seja visível
         }
         
         /// Movie Release
@@ -104,6 +107,7 @@ class MovieTableViewCell: UITableViewCell {
             make.bottom.lessThanOrEqualToSuperview().offset(-16) // Garante que a data não ultrapasse a parte inferior da tela
         }
     }
+
     
 }
 
