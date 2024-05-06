@@ -44,9 +44,19 @@ class MoviesViewController: UIViewController {
         setupConstraints()
         setupNavigationBar()
         
-        Task { /// chamada assíncrona
-           await fetchMovies()
+        fetchMovies { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let movies):
+                self.movies = movies
+                self.tableView.reloadData()
+
+            case .failure(let error):
+                print(error)
+            }
         }
+
         
     }
     
@@ -72,17 +82,11 @@ class MoviesViewController: UIViewController {
         navigationItem.titleView = searchBar
     }
     
-    private func fetchMovies() async {
-        // Vamos chamar a funcao getMovies do movie service quando ela estiver pronta
-        do {
-            movies = try await movieServices.getMovies()
-            tableView.reloadData()
-            
-        } catch (let error) {
-            print(error)
+    private func fetchMovies(completion: @escaping (Result<[Movie], Error>) -> Void) {
+            movieServices.fetchMovies { result in
+                completion(result)
+            }
         }
-        
-    }
     
 
 }
