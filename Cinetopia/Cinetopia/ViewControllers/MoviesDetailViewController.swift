@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MoviesDetailViewController: UIViewController {
     
@@ -25,11 +26,14 @@ class MoviesDetailViewController: UIViewController {
     }()
     
     private lazy var posterImageView: UIImageView = {
-        let image = UIImageView(image: UIImage(named: movie.image))
+        let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
         image.layer.cornerRadius = 12
+        
+        let url = URL(string: movie.image)
+        image.kf.setImage(with: url)
         
         return image
     }()
@@ -119,5 +123,5 @@ class MoviesDetailViewController: UIViewController {
 }
 
 #Preview {
-    MoviesDetailViewController(movie: movies[0])
+    MoviesDetailViewController(movie: mockedMovies[0])
 }

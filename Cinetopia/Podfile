@@ -6,6 +6,8 @@ target 'Cinetopia' do
   use_frameworks!
 
   # Pods for Cinetopia
-  pod 'SnapKit', '5.7.1'
+  pod 'SnapKit', '~> 5.7.1' 
+  pod 'Kingfisher', '~> 7.10.0'
+  pod 'Alamofire', '~> 5.9.1'
 
 end
