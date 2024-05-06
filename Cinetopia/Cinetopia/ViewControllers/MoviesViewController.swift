@@ -44,7 +44,10 @@ class MoviesViewController: UIViewController {
         setupConstraints()
         setupNavigationBar()
         
-        fetchMovies()
+        Task { /// chamada assíncrona
+           await fetchMovies()
+        }
+        
     }
     
     // MARK:- Functions
@@ -69,23 +72,16 @@ class MoviesViewController: UIViewController {
         navigationItem.titleView = searchBar
     }
     
-    private func fetchMovies() {
+    private func fetchMovies() async {
         // Vamos chamar a funcao getMovies do movie service quando ela estiver pronta
-        movieServices.getMovies { result in
+        do {
+            movies = try await movieServices.getMovies()
+            tableView.reloadData()
             
-            switch result {
-            case .success(let movies):
-                DispatchQueue.main.async { // voltando pra thread principal
-                    self.movies = movies
-                    self.tableView.reloadData()
-                }
-                
-            case .failure(let error):
-                print(error)
-            }
-            
-            
+        } catch (let error) {
+            print(error)
         }
+        
     }
     
 

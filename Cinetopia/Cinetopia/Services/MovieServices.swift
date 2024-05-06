@@ -9,31 +9,24 @@ import Foundation
 
 struct MovieServices {
     
-    func getMovies(completion: @escaping(Result<[Movie], ErrorMovieServices>) -> Void) {
+    func getMovies() async throws -> [Movie] {
                 
         let urlString = "http://localhost:3000/movies"
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidURL))
-            return
+        guard let url = URL(string: urlString) else { throw ErrorMovieServices.invalidURL }
+        
+        let (data, response) = try await URLSession.shared.data(from: url) /// é assíncrono
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw ErrorMovieServices.invalidResponse
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, _ in
-            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                completion(.failure(.invalidResponse))
-                return
-            }
+        do {
+            let movies = try JSONDecoder().decode([Movie].self, from: data) /// não é assíncrono
+            return movies
             
-            /// convertendo o data para o objeto Movie
-            do {
-                let movies = try JSONDecoder().decode([Movie].self, from: data)
-                completion(.success(movies))
-                
-            } catch {
-                completion(.failure(.decodingError))
-            }
+        } catch {
+            throw ErrorMovieServices.decodingError
         }
-        
-        task.resume() /// executando tarefa
         
     }
     
