@@ -91,7 +91,11 @@ class MoviesDetailViewController: UIViewController {
         /// Movie Title
         movieTitle.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.top.greaterThanOrEqualToSuperview().offset(32) // Margem superior mínima de 32 pontos
             make.centerY.equalToSuperview().multipliedBy(0.3) // Ajuste da proporção para centralizar verticalmente
+            make.bottom.lessThanOrEqualTo(posterImageView.snp.top).offset(-16) // Margem inferior máxima em relação ao posterImageView
+            make.leading.greaterThanOrEqualToSuperview().offset(12) // Margem esquerda mínima de 12 pontos
+            make.trailing.lessThanOrEqualToSuperview().offset(-12) // Margem direita mínima de 12 pontos
         }
         
         /// Image Poster
@@ -111,17 +115,16 @@ class MoviesDetailViewController: UIViewController {
         /// Synopsis
         synopsisLabel.snp.makeConstraints { make in
             make.top.equalTo(userRate.snp.bottom).offset(36)
-            make.leading.equalToSuperview().offset(12)
-            make.trailing.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(12) // Margem esquerda mínima de 12 pontos
+            make.trailing.equalToSuperview().offset(-12) // Margem direita mínima de 12 pontos
             make.centerX.equalToSuperview()
-            make.bottom.lessThanOrEqualToSuperview().offset(-32)
+            make.bottom.lessThanOrEqualToSuperview().offset(-32) // Margem inferior máxima
         }
     }
-
 
 
 }
 
 #Preview {
-    MoviesDetailViewController(movie: mockedMovies[0])
+    MoviesDetailViewController(movie: mockedMovies[3])
 }
