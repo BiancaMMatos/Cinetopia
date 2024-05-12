@@ -16,6 +16,8 @@
 		558112772BC355870018913C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 558112762BC355870018913C /* Assets.xcassets */; };
 		5581127A2BC355870018913C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 558112792BC355870018913C /* Base */; };
 		5597B9E42BD4169A006C154F /* MovieServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597B9E32BD4169A006C154F /* MovieServices.swift */; };
+		55B618B62BF15FBE00ECF2D1 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B618B52BF15FBE00ECF2D1 /* FavoriteMoviesViewController.swift */; };
+		55B618B82BF16D5B00ECF2D1 /* FavoriteMovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B618B72BF16D5B00ECF2D1 /* FavoriteMovieCollectionViewCell.swift */; };
 		55BB9B402BCCB0F4005C9C17 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB9B3F2BCCB0F4005C9C17 /* Movie.swift */; };
 		55CB78B92BCE0F59006768FC /* MoviesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CB78B82BCE0F59006768FC /* MoviesDetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +33,8 @@
 		558112792BC355870018913C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5581127B2BC355870018913C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5597B9E32BD4169A006C154F /* MovieServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieServices.swift; sourceTree = "<group>"; };
+		55B618B52BF15FBE00ECF2D1 /* FavoriteMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesViewController.swift; sourceTree = "<group>"; };
+		55B618B72BF16D5B00ECF2D1 /* FavoriteMovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		55BB9B3F2BCCB0F4005C9C17 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		55CB78B82BCE0F59006768FC /* MoviesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDetailViewController.swift; sourceTree = "<group>"; };
 		63396BA4E28C2916C60DF9A6 /* Pods_Cinetopia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cinetopia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				5566610C2BCD910300D8566C /* MovieTableViewCell.swift */,
+				55B618B72BF16D5B00ECF2D1 /* FavoriteMovieCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -106,6 +111,7 @@
 				555E4CDE2BC9E6C0003EE3A1 /* MoviesViewController.swift */,
 				558112712BC3557E0018913C /* HomeViewController.swift */,
 				55CB78B82BCE0F59006768FC /* MoviesDetailViewController.swift */,
+				55B618B52BF15FBE00ECF2D1 /* FavoriteMoviesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -249,12 +255,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55B618B62BF15FBE00ECF2D1 /* FavoriteMoviesViewController.swift in Sources */,
 				55CB78B92BCE0F59006768FC /* MoviesDetailViewController.swift in Sources */,
 				558112722BC3557E0018913C /* HomeViewController.swift in Sources */,
 				5597B9E42BD4169A006C154F /* MovieServices.swift in Sources */,
 				5581126E2BC3557E0018913C /* AppDelegate.swift in Sources */,
 				5566610D2BCD910300D8566C /* MovieTableViewCell.swift in Sources */,
 				558112702BC3557E0018913C /* SceneDelegate.swift in Sources */,
+				55B618B82BF16D5B00ECF2D1 /* FavoriteMovieCollectionViewCell.swift in Sources */,
 				555E4CDF2BC9E6C0003EE3A1 /* MoviesViewController.swift in Sources */,
 				55BB9B402BCCB0F4005C9C17 /* Movie.swift in Sources */,
 			);
